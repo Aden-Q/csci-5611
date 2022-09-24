@@ -48,30 +48,32 @@ Vec2 pos; //Circle position
 Vec2 vel; //Circle velocity
 float r;  //Circle radius
 
-float speed = 4;
+float speed = 100;
 
 void update(float dt){
   Vec2 mousePos = new Vec2(mouseX, mouseY);
-  Vec2 dir = new Vec2(0,0); //Should be vector pointing from pos to MousePos
-  if (dir.length() > 0) dir.normalize();
-  vel = dir.times(speed);
+  Vec2 dir = new Vec2(mousePos.x - pos.x,mousePos.y - pos.y); //Should be vector pointing from pos to MousePos
+  if (dir.length() > 1) dir.normalize();
+  vel = dir.times(speed * dt);
   pos.add(vel);
 }
 
 void draw(){
   update(1/frameRate);
-  background(0,200,70); //White background
+  background(255); //White background
   stroke(100,0,200);
-  fill(100,20,10);
+  fill(255,0,0);
   circle(pos.x, pos.y,r*2); //Question: Why is it radius*2 ?
 }
 
 void keyPressed(){
   if (key == 'd'){
     println("Doubling ball speed");
+    speed *= 2;
   }
   if (key == 'h'){
     println("Halving ball speed");
+    speed /= 2;
   }
   println("Speed is now:",speed);
 }

@@ -45,11 +45,11 @@ CHALLENGE:
   3. Add a static obstacle for the agent to avoid (hint: treat it as an agent with 0 velocity).
 */
 
-static int maxNumAgents = 3;
+static int maxNumAgents = 100;
 int numAgents = 3;
 
-float k_goal = 1;  //TODO: Tune this parameter to agent stop naturally on their goals
-float k_avoid = 1;
+float k_goal = 3;  //TODO: Tune this parameter to agent stop naturally on their goals
+float k_avoid = 100;
 float agentRad = 40;
 float goalSpeed = 100;
 
@@ -75,6 +75,8 @@ void setup(){
  
   //Set initial velocities to cary agents towards their goals
   for (int i = 0; i < numAgents; i++){
+    agentPos[i] = new Vec2(random(850),random(650)); 
+    goalPos[i] = new Vec2(random(850),random(650));
     agentVel[i] = goalPos[i].minus(agentPos[i]);
     if (agentVel[i].length() > 0)
       agentVel[i].setToLength(goalSpeed);
@@ -84,7 +86,9 @@ void setup(){
 //Return at what time agents 1 and 2 collide if they keep their current velocities
 // or -1 if there is no collision.
 float computeTTC(Vec2 pos1, Vec2 vel1, float radius1, Vec2 pos2, Vec2 vel2, float radius2){
-  return -1;
+  float combinedRadius = radius1+radius2;
+  Vec2 relativeVelocity = vel1.minus(vel2);
+  return rayCircleIntersectTime(pos2, combinedRadius, pos1, relativeVelocity);
 }
 
 // Compute attractive forces to draw agents to their goals,
@@ -92,7 +96,10 @@ float computeTTC(Vec2 pos1, Vec2 vel1, float radius1, Vec2 pos2, Vec2 vel2, floa
 Vec2 computeAgentForces(int id){
   //TODO: Make this better
   Vec2 acc = new Vec2(0,0);
- 
+  Vec2 goalVel = goalPos[id].minus(agentPos[id]);
+  if (goalVel.length() > goalSpeed) goalVel.setToLength(goalSpeed);
+  Vec2 goalForce = (goalVel.minus(agentVel[id]));
+  acc.add(goalForce.times(k_goal));
   return acc;
 }
 

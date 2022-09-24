@@ -42,7 +42,7 @@
 
 
 //Simulation paramaters
-static int maxParticles = 40;
+static int maxParticles = 400;
 Vec2 spherePos = new Vec2(300,400);
 float sphereRadius = 60;
 float r = 5;
@@ -63,6 +63,7 @@ void setup(){
 }
 
 Vec2 obstacleVel = new Vec2(0,0);
+float shiftSpeed = 1.0;
 
 void update(float dt){
   float toGen_float = genRate * dt;
@@ -72,21 +73,45 @@ void update(float dt){
   for (int i = 0; i < toGen; i++){
     if (numParticles >= maxParticles) break;
     pos[numParticles] = new Vec2(20+random(20),200+random(20));
-    vel[numParticles] = new Vec2(60,-200); 
+    vel[numParticles] = new Vec2(30+random(60),-190+random(10)); 
     numParticles += 1;
   }
   
   
   obstacleVel = new Vec2(0,0);
-  if (leftPressed) obstacleVel = new Vec2(-obstacleSpeed,0);
-  if (rightPressed) obstacleVel = new Vec2(obstacleSpeed,0);
-  if (upPressed) obstacleVel = new Vec2(0,-obstacleSpeed);
-  if (downPressed) obstacleVel = new Vec2(0,obstacleSpeed);
+  int cnt = 0;
+
+  if (shiftPressed) {
+    shiftSpeed = 2.0;
+  } else {
+    shiftSpeed = 1.0;
+  }
+  if (leftPressed) {
+    obstacleVel.x += -obstacleSpeed * shiftSpeed;
+    cnt += 1;
+  }
+  if (rightPressed) {
+    obstacleVel.x += obstacleSpeed * shiftSpeed;
+    cnt += 1;
+  }
+  if (upPressed) {
+    obstacleVel.y += -obstacleSpeed * shiftSpeed;
+    cnt += 1;
+  }
+  if (downPressed) {
+    obstacleVel.y += obstacleSpeed * shiftSpeed;
+    cnt += 1;
+  }
+  if (cnt > 0) {
+    obstacleVel.x /= sqrt(cnt);
+    obstacleVel.y /= sqrt(cnt);
+  }
   spherePos.add(obstacleVel.times(dt));
   
   for (int i = 0; i <  numParticles; i++){
     
     Vec2 acc = gravity; //Gravity
+    vel[i].plus(gravity.times(dt));
     
     pos[i].add(vel[i].times(dt)); //Update position based on velocity
     
@@ -130,6 +155,12 @@ void keyPressed(){
 void keyReleased(){
   if (key == 'r'){
     println("Reseting the System");
+  for (int i = 0; i < numParticles; i++){
+    pos[i] = new Vec2(0, 0);
+    vel[i] = new Vec2(0, 0); 
+  }
+  numParticles = 0;
+  
   }
   if (keyCode == LEFT) leftPressed = false;
   if (keyCode == RIGHT) rightPressed = false;
@@ -150,7 +181,7 @@ void draw(){
     circle(pos[i].x, pos[i].y, r*2); //(x, y, diameter)
   }
   
-  fill(180,60,40);
+  fill(0,0,255);
   circle(spherePos.x, spherePos.y, sphereRadius*2); //(x, y, diameter)
 }
 

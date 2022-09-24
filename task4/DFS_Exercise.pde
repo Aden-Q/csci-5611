@@ -42,10 +42,13 @@ for (int i = 0; i < numNodes; i++) {
 }
 
 //Set which nodes are connected to which neighbors
-neighbors[0].add(1); neighbors[0].add(2); //0 -> 1 & 2
-neighbors[1].add(3); neighbors[1].add(4); //1 -> 3 & 4 
-neighbors[2].add(5); neighbors[2].add(6); //2 -> 5 & 6
-neighbors[4].add(7);                      //4 -> 7
+neighbors[0].add(1); neighbors[0].add(3); //0 -> 1 & 3
+neighbors[1].add(2); neighbors[1].add(4); //1 -> 2 & 4 
+neighbors[2].add(7); //2 -> 7
+neighbors[3].add(4); neighbors[3].add(6); //3 -> 4 & 6
+neighbors[4].add(5);                      //4 -> 5
+neighbors[5].add(7); //5 -> 7
+neighbors[6].add(5); //6 -> 5
 
 println("List of Neighbors:");
 println(neighbors);
@@ -58,15 +61,17 @@ ArrayList<Integer> fringe = new ArrayList();
 
 println("\nBeginning Search");
 
-visited[start] = true;
+visited[start] = false;
 fringe.add(start);
 println("Adding node", start, "(start) to the fringe.");
 println(" Current Fring: ", fringe);
 
 while (fringe.size() > 0){
-  int fringeTop = 0;
+  int fringeTop = fringe.size() - 1;
   int currentNode = fringe.get(fringeTop);
   fringe.remove(fringeTop);
+  if (visited[currentNode]) continue;
+  visited[currentNode] = true;
   if (currentNode == goal){
     println("Goal found!");
     break;
@@ -74,7 +79,6 @@ while (fringe.size() > 0){
   for (int i = 0; i < neighbors[currentNode].size(); i++){
     int neighborNode = neighbors[currentNode].get(i);
     if (!visited[neighborNode]){
-      visited[neighborNode] = true;
       parent[neighborNode] = currentNode;
       fringe.add(neighborNode);
       println("Added node", neighborNode, "to the fringe.");
