@@ -83,8 +83,8 @@ void draw(){
   
   //Draw the box obstacles
   //TODO: Uncomment this to draw the box
-  //fill(250,200,200);
-  //rect(boxTopLeft.x, boxTopLeft.y, boxW, boxH);
+  fill(250,200,200);
+  rect(boxTopLeft.x, boxTopLeft.y, boxW, boxH);
   
   //Draw PRM Nodes
   fill(0);
@@ -124,25 +124,45 @@ void keyPressed(){
   if (key == 'r'){
     //TODO: Randomize obstacle positions and radii
     //      Also, replan for these new obstacles.
+    setup();
   }
   
   if (keyCode == RIGHT){
     boxTopLeft.x += 10;
+    buildPRM(circlePos, circleRad, boxTopLeft, boxW, boxH);
+    runBFS(closestNode(startPos),closestNode(goalPos));
   }
   if (keyCode == LEFT){
     boxTopLeft.x -= 10;
+    buildPRM(circlePos, circleRad, boxTopLeft, boxW, boxH);
+    runBFS(closestNode(startPos),closestNode(goalPos));
   }
   if (keyCode == UP){
     boxTopLeft.y -= 10;
+    buildPRM(circlePos, circleRad, boxTopLeft, boxW, boxH);
+    runBFS(closestNode(startPos),closestNode(goalPos));
   }
   if (keyCode == DOWN){
     boxTopLeft.y += 10;
+    buildPRM(circlePos, circleRad, boxTopLeft, boxW, boxH);
+    runBFS(closestNode(startPos),closestNode(goalPos));
   }
 }
 
 int closestNode(Vec2 point){
   //TODO: Return the closest node the passed in point
-  return int(random(numNodes));
+  float minDist = 1000000000000.0;
+  int nodeIndex = 0;
+  for (int i = 0; i < numNodes; i++){
+    float distBetween = nodePos[i].distanceTo(point);
+    if (distBetween < minDist) {
+      minDist = distBetween;
+      nodeIndex = i;
+    }
+  }
+
+  return nodeIndex;
+  
 }
 
 void mousePressed(){
@@ -160,6 +180,12 @@ void mousePressed(){
 //Returns true if the point is inside a box
 boolean pointInBox(Vec2 boxTopLeft, float boxW, float boxH, Vec2 pointPos){
   //TODO: Return true if the point is actually inside the box
+  if (pointPos == null) {
+    return false;
+  }
+  if (pointPos.x > boxTopLeft.x && pointPos.x < boxTopLeft.x + boxW && pointPos.y > boxTopLeft.y && pointPos.y < boxTopLeft.y + boxH) {
+    return true;
+  }
   return false;
 }
 
@@ -315,7 +341,7 @@ void generateRandomNodes(Vec2[] circleCenters, float[] circleRadii, Vec2 boxTopL
   for (int i = 0; i < numNodes; i++){
     Vec2 randPos = new Vec2(random(width),random(height));
     boolean insideAnyCircle = pointInCircleList(circleCenters,circleRadii,randPos);
-    while (insideAnyCircle){
+    while (insideAnyCircle && pointInBox(boxTopLeft, boxW, boxH, randPos)){
       randPos = new Vec2(random(width),random(height));
       insideAnyCircle = pointInCircleList(circleCenters,circleRadii,randPos);
     }
@@ -332,6 +358,7 @@ void connectNeighbors(){
       if (i == j) continue; //don't connect to myself 
       Vec2 dir = nodePos[j].minus(nodePos[i]).normalized();
       float distBetween = nodePos[i].distanceTo(nodePos[j]);
+      if (distBetween >= 200) continue;
       hitInfo circleListCheck = rayCircleListIntesect(circlePos, circleRad, nodePos[i], dir, distBetween);
       if (!circleListCheck.hit){
         neighbors[i].add(j);
