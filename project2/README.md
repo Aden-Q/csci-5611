@@ -7,7 +7,7 @@ Zecheng Qian (qian0102@umn.edu)
 ### Demos
 
 + ![demo_img](demo/demo_img.png)
-+ [Video Link](demo/demo_video.move)
++ [Video Link](demo/demo_video.mov)
 
 ### Features
 + Multiple Ropes: The number of (independent) ropes can be adjusted by setting the parameter `numRopes` in the code, currently there are 3 ropes
@@ -25,4 +25,4 @@ Zecheng Qian (qian0102@umn.edu)
 + Skeleton code from `RopeStarter_Vec2.pde`
 + Camera library on Canvas
 + Brief write-up explaining difficulties you encountered: Triangulation of the cloth, in order to apply to air drag, we need to have 3 points to form a triangle, doing triangulation is not very intuitive with such a model. Besides, simulation with more ropes and more balls on each rope can cause the program to run slowly.
-+ One or more images/videos showcasing features of your simulation: please check the demo section above: [Video Link](demo/demo_video.move).
++ One or more images/videos showcasing features of your simulation: please check the demo section above: [Video Link](demo/demo_video.mov).
