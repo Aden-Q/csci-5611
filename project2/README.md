@@ -4,8 +4,8 @@ Zecheng Qian (qian0102@umn.edu)
 
 ## Part 1
 
-+ ![demo_img](demo/img.png)
-+ ![demo_video](demo/video.move)
++ ![demo_img](demo/demo_img.png)
++ ![demo_video](demo/demo_video.move)
 
 ### Demos
 
