@@ -25,7 +25,7 @@ Zecheng Qian (qian0102@umn.edu)
 + Skeleton code from `RopeStarter_Vec2.pde`
 + Camera library on Canvas
 ### Write-up explaining difficulties you encountered 
-+ Triangulation of the cloth, in order to apply to air drag, we need to have 3 points to form a triangle, doing triangulation is not very intuitive with such a model
++ Triangulation of the cloth, in order to apply to air drag, we need to have 3 adjacent points to form a triangle, doing triangulation is not very intuitive with such a model
 + Simulation with more ropes and more balls on each rope can cause the program to run slowly
 + Converting between coordinate systems is not easy, when dealing with mouse clicking events, the mouse's coordinates are relative to the canvs but objects in the scene has another 3D world coordinates with the camera as its origin
 
