@@ -4,8 +4,8 @@ Zecheng Qian (qian0102@umn.edu)
 
 ## Part 1
 
-[demo_img](demo/img.png)
-[demo_video](demo/video.)
++ ![demo_img](demo/img.png)
++ ![demo_video](demo/video.move)
 
 ### Demos
 
@@ -23,7 +23,7 @@ Zecheng Qian (qian0102@umn.edu)
 
 
 ### List of the tools/library you used
-+ Skeleton code from `RopeStarter_Vec2`
++ Skeleton code from `RopeStarter_Vec2.pde`
 + Camera library on Canvas
 + Brief write-up explaining difficulties you encountered: Triangulation of the cloth, in order to apply to air drag, we need to have 3 points to form a triangle, doing triangulation is not very intuitive with such a model. Besides, simulation with more ropes and more balls on each rope can cause the program to run slowly.
 + One or more images/videos showcasing features of your simulation: please check the demo section above.
