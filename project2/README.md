@@ -6,8 +6,8 @@ Zecheng Qian (qian0102@umn.edu)
 
 + ![demo_img](demo/demo_img.png)
 + ![demo_water](demo/demo_water.png)
-+ [Video Link](demo/demo_video.mov)
-+ [demo_water_video](demo/demo_water_video.mov)
++ [demo video 1](demo/demo_video.mov)
++ [demo video 2](demo/demo_water_video.mov)
 
 ### Features
 #### Part 1
